@@ -1,0 +1,70 @@
+.navbar {
+  height: 70px;
+  background-color: rgba(8, 13, 23, 0.95);
+  backdrop-filter: blur(10px); /* Blurs content behind the nav */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-container {
+  max-width: 1400px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--text-white);
+  letter-spacing: 1px;
+}
+
+.navbar-logo span {
+  color: var(--accent-red);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: var(--text-gray);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.nav-item:hover {
+  color: var(--text-white);
+}
+
+.nav-item.active {
+  color: var(--text-white);
+  border-bottom: 2px solid var(--accent-red);
+  padding-bottom: 4px;
+}
+
+.signin-btn {
+  background-color: var(--accent-red);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.signin-btn:hover {
+  background-color: #be123c;
+  transform: scale(1.05);
+}

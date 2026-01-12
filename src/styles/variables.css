@@ -1,0 +1,6 @@
+    :root {
+  --primary-bg: #0f172a; /* Dark Navy */
+  --accent-color: #e11d48; /* Netflix Red */
+  --text-main: #f8fafc;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}

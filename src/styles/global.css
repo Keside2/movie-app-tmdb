@@ -1,0 +1,36 @@
+/* src/styles/global.css */
+:root {
+  --main-bg: #080d17;
+  --card-bg: #1a2230;
+  --accent-red: #e11d48;
+  --text-white: #ffffff;
+  --text-gray: #94a3b8;
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--main-bg);
+  color: var(--text-white);
+  font-family: 'Inter', -apple-system, sans-serif;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.movie-grid {
+  display: grid;
+  /* This creates a responsive grid without media queries */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}

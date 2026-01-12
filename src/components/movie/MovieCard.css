@@ -1,0 +1,71 @@
+/* src/components/movie/MovieCard.css */
+.movie-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--card-bg);
+  transition: var(--transition);
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.movie-poster {
+  position: relative;
+  aspect-ratio: 2/3;
+  width: 100%;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Gradient overlay to make title readable */
+.movie-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.9) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.movie-card:hover .movie-overlay {
+  opacity: 1;
+}
+
+.movie-info {
+  padding: 0.75rem;
+}
+
+.movie-info h3 {
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25rem;
+}
+
+.movie-info p {
+  color: var(--text-gray);
+  font-size: 0.85rem;
+}
+
+.rating {
+  color: #fbbf24; /* Gold color for star */
+  font-weight: bold;
+}
