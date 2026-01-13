@@ -1,0 +1,34 @@
+.genre-filter {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  overflow-x: auto; /* Allows scrolling on mobile */
+  padding-bottom: 10px;
+  scrollbar-width: none; /* Hides scrollbar on Firefox */
+}
+
+.genre-filter::-webkit-scrollbar {
+  display: none; /* Hides scrollbar on Chrome/Safari */
+}
+
+.genre-btn {
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--card-bg);
+  color: white;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.genre-btn:hover {
+  border-color: var(--accent-red);
+}
+
+.genre-btn.active {
+  background-color: var(--accent-red);
+  border-color: var(--accent-red);
+  box-shadow: 0 0 15px rgba(225, 29, 72, 0.4);
+}

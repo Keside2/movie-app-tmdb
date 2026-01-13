@@ -43,14 +43,51 @@ export const searchMovies = (query) => {
 };
 
 // 4. Get Movie Details (Single Movie)
+// src/services/tmdbApi.js
+
 export const getMovieDetails = async (movieId) => {
+    const TOKEN = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN; // Get your token
+
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${TOKEN}`
+        }
+    };
+
     try {
+        // Notice we removed ?api_key=... and added the options object
         const response = await fetch(
-            `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&append_to_response=videos,credits`
+            `${BASE_URL}/movie/${movieId}?language=en-US&append_to_response=videos,credits`,
+            options
         );
+        if (!response.ok) throw new Error('Network response was not ok');
         return await response.json();
     } catch (error) {
         console.error("Details Fetch Error:", error);
     }
 };
 
+export const getTopMoviesNigeria = async () => {
+    const TOKEN = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN;
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${TOKEN}`
+        }
+    };
+
+    try {
+        // 'NG' is the ISO code for Nigeria
+        const response = await fetch(
+            `${BASE_URL}/discover/movie?language=en-US&region=NG&sort_by=popularity.desc&page=1`,
+            options
+        );
+        const data = await response.json();
+        return data.results.slice(0, 10); // Only take top 10
+    } catch (error) {
+        console.error("Nigeria Fetch Error:", error);
+    }
+};

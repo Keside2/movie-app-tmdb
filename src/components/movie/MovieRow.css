@@ -1,0 +1,34 @@
+.movie-row-container {
+  margin: 2rem 0;
+  padding-left: 1rem; /* Aligns with the container */
+}
+
+.row-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.movie-row-scroll {
+  display: flex;
+  gap: 1.2rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scrollbar-width: none; /* Hide for Firefox */
+  scroll-behavior: smooth;
+}
+
+.movie-row-scroll::-webkit-scrollbar {
+  display: none; /* Hide for Chrome/Safari */
+}
+
+.movie-row-item {
+  flex: 0 0 auto; /* Crucial: prevents cards from shrinking */
+  width: 160px;   /* Standard width for the cards in a row */
+}
+
+@media (max-width: 768px) {
+  .movie-row-item {
+    width: 130px; /* Slightly smaller on mobile */
+  }
+}

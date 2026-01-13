@@ -1,11 +1,13 @@
 // src/components/movie/MovieCard.jsx
 import './MovieCard.css';
+import { Link } from 'react-router-dom';
 
 function MovieCard({ movie }) {
   const imageUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
   return (
-    <div className="movie-card">
+    <Link to={`/movie/${movie.id}`} className="movie-card-link">
+       <div className="movie-card">
       <div className="movie-poster">
         <img src={imageUrl} alt={movie.title} loading="lazy" />
         <div className="movie-overlay">
@@ -21,6 +23,7 @@ function MovieCard({ movie }) {
         </p>
       </div>
     </div>
+    </Link>
   );
 }
 
