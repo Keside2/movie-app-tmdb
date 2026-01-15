@@ -10,9 +10,9 @@ function MovieCard({ movie }) {
        <div className="movie-card">
       <div className="movie-poster">
         <img src={imageUrl} alt={movie.title} loading="lazy" />
-        <div className="movie-overlay">
+        {/* <div className="movie-overlay">
            <button className="favorite-btn">❤️</button>
-        </div>
+        </div> */}
       </div>
       <div className="movie-info">
         <h3>{movie.title}</h3>

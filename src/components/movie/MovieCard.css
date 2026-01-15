@@ -53,6 +53,7 @@
 
 .movie-info {
   padding: 0.75rem;
+  
 }
 
 .movie-info h3 {
@@ -61,6 +62,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 0.25rem;
+  
 }
 
 .movie-info p {
@@ -71,4 +73,7 @@
 .rating {
   color: #fbbf24; /* Gold color for star */
   font-weight: bold;
+}
+.movie-card-link{
+    text-decoration: none;
 }

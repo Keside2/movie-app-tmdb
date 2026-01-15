@@ -1,5 +1,6 @@
 // src/services/tmdbApi.js
 
+const API_KEY = 'your_actual_api_key_here';
 const TOKEN = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -90,4 +91,9 @@ export const getTopMoviesNigeria = async () => {
     } catch (error) {
         console.error("Nigeria Fetch Error:", error);
     }
+};
+
+
+export const getSimilarMovies = (movieId) => {
+    return fetchFromApi(`/movie/${movieId}/similar`);
 };

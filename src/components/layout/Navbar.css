@@ -70,6 +70,21 @@
 }
 
 @media (max-width: 768px) {
+
+    .signin-btn {
+  background-color: var(--accent-red);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  width: 75px;
+  height: 40px;
+  
+}
+
   .navbar-container {
     padding: 0 1rem;
   }
@@ -151,3 +166,116 @@
     display: none; /* Hide 'APP' text to save space if needed */
   }
 }
+
+.nav-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 4px; /* Netflix uses slightly rounded squares */
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.nav-avatar:hover {
+  transform: scale(1.05);
+  border-color: #fff;
+}
+
+/* If you have a container for the right side of your navbar */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+/* --- Hamburger Icon --- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  z-index: 1001;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+/* --- Mobile Menu Logic --- */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  /* Animate Hamburger to 'X' when open */
+  .hamburger.active .bar:nth-child(2) { opacity: 0; }
+  .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  .nav-links {
+    position: fixed;
+    left: -100%; /* Hidden by default */
+    top: 70px;
+    flex-direction: column;
+    background-color: rgba(8, 13, 23, 0.98);
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+    height: calc(100vh - 70px);
+    padding-top: 2rem;
+    gap: 2.5rem;
+    padding: 20px;
+  }
+
+  .nav-links.open {
+    left: 0; /* Slide in */
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only-text {
+    display: inline;
+    margin-left: 10px;
+    color: white;
+  }
+
+  .nav-item {
+    font-size: 1.2rem;
+  }
+
+  .profile-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 4px; /* Netflix uses slightly rounded squares */
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+  border: 1px solid transparent;
+}
+}
+
+/* Hide mobile-only elements on desktop */
+.mobile-only-text, .mobile-only-logout {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only-logout {
+    display: block;
+  }
+}
+

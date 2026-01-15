@@ -1,75 +1,81 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useWatchlist } from '../../context/WatchListContext'; // Import the hook
+import { useWatchlist } from '../../context/WatchListContext';
 import './Navbar.css';
 import { useAuth } from '../../context/AuthContext';
+import { useState } from 'react'; // Added useState
 
 function Navbar() {
-  const { watchlist } = useWatchlist(); // Get the watchlist data
-  const { user, logout } = useAuth(); // Get user and logout from context
+  const { watchlist } = useWatchlist();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false); // State for hamburger
 
   const handleLogout = async () => {
-  try {
-    await logout(); // Calls the firebase signOut from your AuthContext
-    navigate('/login'); // Takes them straight to the Login page
-  } catch (error) {
-    console.error("Error signing out:", error);
-  }
-};
+    try {
+      await logout();
+      setMenuOpen(false); // Close menu on logout
+      navigate('/login');
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <NavLink to="/" className="navbar-logo">
+        <NavLink to="/" className="navbar-logo" onClick={closeMenu}>
           MOVIE<span>APP</span>
         </NavLink>
 
-        <ul className="nav-links">
+        {/* Hamburger Icon */}
+        <div className={`hamburger ${menuOpen ? 'active' : ''}`} onClick={toggleMenu}>
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </div>
+
+        {/* Nav Links - Added dynamic class for menuOpen */}
+        <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
           <li>
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-            >
-              Home
-            </NavLink>
+            <NavLink to="/" className="nav-item" onClick={closeMenu}>Home</NavLink>
           </li>
           <li>
-            <NavLink 
-              to="/search" 
-              className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-            >
-              Search
-            </NavLink>
+            <NavLink to="/search" className="nav-item" onClick={closeMenu}>Search</NavLink>
           </li>
-          {/* ADDED WATCHLIST LINK */}
           <li>
-            <NavLink 
-              to="/watchlist" 
-              className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-            >
+            <NavLink to="/watchlist" className="nav-item" onClick={closeMenu}>
               Watchlist 
-              {watchlist.length > 0 && (
-                <span className="watchlist-count">{watchlist.length}</span>
-              )}
+              {watchlist.length > 0 && <span className="watchlist-count">{watchlist.length}</span>}
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/profile" className="nav-item profile-link" onClick={closeMenu}>
+              <img 
+                src={`https://ui-avatars.com/api/?name=${user?.email}&background=random&color=fff`} 
+                className="nav-avatar" 
+                alt="Profile"
+              />
+              <span className="mobile-only-text">Profile</span>
+            </NavLink>
+          </li>
+          {user && (
+            <li className="mobile-only-logout">
+               <button className="signin-btn" onClick={handleLogout}>Logout</button>
+            </li>
+          )}
         </ul>
 
-        <div className="navbar-actions">
-        {user ? (
-          <div className="user-profile">
-     
-      <button className="signin-btn" onClick={handleLogout}>Logout</button>
-    </div>
-  ) : (
-    <button className="signin-btn" onClick={() => navigate('/login')}>
-      Sign In
-    </button>
-        )}
+        <div className="navbar-actions desktop-only">
+          {user ? (
+            <button className="signin-btn" onClick={handleLogout}>Logout</button>
+          ) : (
+            <button className="signin-btn" onClick={() => navigate('/login')}>Sign In</button>
+          )}
+        </div>
       </div>
-      </div>
-
-      
     </nav>
   );
 }

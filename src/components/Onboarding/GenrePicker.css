@@ -1,0 +1,50 @@
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.genre-card {
+  background: #1a1a1a;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 500px;
+}
+
+.genre-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 25px 0;
+  justify-content: center;
+}
+
+.genre-chip {
+  padding: 10px 20px;
+  border: 1px solid #333;
+  border-radius: 25px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.genre-chip.active {
+  background: #e11d48;
+  border-color: #e11d48;
+}
+
+.save-btn {
+  background: #e11d48;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
