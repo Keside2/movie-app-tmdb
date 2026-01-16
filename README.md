@@ -72,7 +72,7 @@ users: {
    npm install
    ```
 
-3. **IEnvironment Configuration:Create a .env file in the root directory and add your keys:**
+3. **Environment Configuration:Create a .env file in the root directory and add your keys:**
    ```Code snippet
    VITE_TMDB_API_KEY=your_tmdb_key
    VITE_FIREBASE_API_KEY=your_firebase_key
