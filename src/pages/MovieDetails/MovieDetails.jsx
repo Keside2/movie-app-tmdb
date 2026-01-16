@@ -5,6 +5,7 @@ import { useWatchlist } from '../../context/WatchListContext';
 import MovieCard from '../../components/movie/MovieCard'; 
 import { getMovieDetails, getSimilarMovies } from '../../services/tmdbApi';
 import MovieReviews from '../../components/movie/MovieReviews';
+import toast from 'react-hot-toast';
 
 
 function MovieDetails() {
@@ -24,8 +25,10 @@ function MovieDetails() {
   const toggleWatchlist = () => {
     if (inWatchlist) {
       removeFromWatchlist(movie.id);
+      toast('Removed from Watchlist', { icon: '🗑️' });
     } else {
       addToWatchlist(movie);
+      toast.success('Added to Watchlist! 🍿');
     }
   };
 

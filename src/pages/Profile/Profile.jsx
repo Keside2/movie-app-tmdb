@@ -3,10 +3,10 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import './Profile.css';
 import { useState, useEffect } from 'react';
 import { db } from '../../services/firebase';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, doc, getDoc, setDoc } from 'firebase/firestore';
 import { useWatchlist } from '../../context/WatchListContext';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
-
+import { updatePassword } from 'firebase/auth'; // Import the Firebase method
+import toast from 'react-hot-toast';
 
 const GENRES = [
   { id: 28, name: 'Action' },
@@ -17,15 +17,18 @@ const GENRES = [
   { id: 878, name: 'Sci-Fi' },
 ];
 
-
 const Profile = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [setWatchlistCount] = useState(0);
-   const { watchlist } = useWatchlist();
-   const [selectedGenres, setSelectedGenres] = useState([]);
+  const { watchlist } = useWatchlist();
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  
+  // New States for Password Update
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordStatus, setPasswordStatus] = useState({ type: "", message: "" });
+  const [isUpdating, setIsUpdating] = useState(false);
 
-   // Fetch saved genres on load
+  // Fetch saved genres on load
   useEffect(() => {
     const fetchUserGenres = async () => {
       if (!user) return;
@@ -38,33 +41,58 @@ const Profile = () => {
   }, [user]);
 
   const toggleGenre = async (genreId) => {
-    const updatedGenres = selectedGenres.includes(genreId)
-      ? selectedGenres.filter(id => id !== genreId)
-      : [...selectedGenres, genreId];
+  // Find the genre name for the toast message
+  const genreName = GENRES.find(g => g.id === genreId)?.name;
 
-    setSelectedGenres(updatedGenres);
+  const isRemoving = selectedGenres.includes(genreId);
+  
+  const updatedGenres = isRemoving
+    ? selectedGenres.filter(id => id !== genreId)
+    : [...selectedGenres, genreId];
 
-    // Save to Firestore
+  setSelectedGenres(updatedGenres);
+
+  // Show the toast feedback
+  if (isRemoving) {
+    toast(`Removed ${genreName}`, { icon: '🗑️' });
+  } else {
+    toast.success(`Added ${genreName} to your interests! 🍿`);
+  }
+
+  // Save to Firestore
+  try {
     const userRef = doc(db, "users", user.uid);
     await setDoc(userRef, { favoriteGenres: updatedGenres }, { merge: true });
+  } catch (error) {
+    toast.error("Failed to save preferences.");
+  }
+};
+
+  // Password Update Handler
+  const handlePasswordUpdate = async (e) => {
+    e.preventDefault();
+    if (newPassword.length < 6) {
+      setPasswordStatus({ type: "error", message: "Password must be at least 6 characters." });
+      return;
+    }
+
+    setIsUpdating(true);
+    setPasswordStatus({ type: "", message: "" });
+
+    try {
+      await updatePassword(user, newPassword);
+     toast.success("Password updated successfully! 🔐");
+      setNewPassword(""); // Clear input
+    } catch (error) {
+      if (error.code === 'auth/requires-recent-login') {
+        toast.error("Please re-login to change password.");
+      } else {
+        setPasswordStatus({ type: "error", message: error.message });
+      }
+    } finally {
+      setIsUpdating(false);
+    }
   };
-
-  useEffect(() => {
-    if (!user) return;
-
-    // Point to your watchlist collection and filter by current user
-    const q = query(
-      collection(db, "watchlist"), 
-      where("userId", "==", user.uid)
-    );
-
-    // Listen for real-time changes
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setWatchlistCount(snapshot.size); // .size gives the total document count
-    });
-
-    return () => unsubscribe();
-  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -89,21 +117,12 @@ const Profile = () => {
         </div>
 
         <div className="profile-stats">
-          <NavLink 
-              to="/watchlist" 
-              className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')} 
-            >
-          <div className="stat-box">
-            <span>Watchlist</span>
-            <strong> {watchlist.length > 0 && (
-                <span className="watchlist-count">{watchlist.length}</span>
-              )}</strong>
-          </div>
+          <NavLink to="/watchlist" className="nav-link-stat">
+            <div className="stat-box">
+              <span>Watchlist</span>
+              <strong>{watchlist.length}</strong>
+            </div>
           </NavLink>
-          <div className="stat-box">
-            <span>Reviews</span>
-            <strong>0</strong>
-          </div>
         </div>
 
         <div className="genre-section">
@@ -121,8 +140,27 @@ const Profile = () => {
           </div>
         </div>
 
+        {/* New Security Section */}
+        <div className="security-section">
+          <h3>Change Password</h3>
+          <form onSubmit={handlePasswordUpdate} className="password-form">
+            <input 
+              type="password" 
+              placeholder="New Password" 
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="password-input"
+            />
+            <button type="submit" disabled={isUpdating} className="update-btn">
+              {isUpdating ? "Updating..." : "Update Password"}
+            </button>
+          </form><br />
+          {passwordStatus.message && (
+            <p className={`status-msg ${passwordStatus.type}`}>{passwordStatus.message}</p>
+          )}
+        </div>
+
         <button onClick={handleLogout} className="logout-btn">Log Out</button>
-        
       </div>
     </div>
   );

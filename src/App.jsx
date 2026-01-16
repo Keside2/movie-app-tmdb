@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
@@ -12,6 +13,17 @@ import Profile from './pages/Profile/Profile';
 
 function App() {
   return (
+    <>
+      <Toaster 
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            background: '#333',
+            color: '#fff',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+          },
+        }}
+      />
     <AuthProvider>
       <WatchlistProvider>
         <Router>
@@ -71,6 +83,7 @@ function App() {
         </Router>
       </WatchlistProvider>
     </AuthProvider>
+    </>
   );
 }
 
